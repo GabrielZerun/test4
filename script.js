@@ -37,31 +37,30 @@
 });
 */
 
+// Czekamy na załadowanie strony
 document.addEventListener('DOMContentLoaded', () => {
 
     const daneDiv = document.getElementById('dane');
 
-   
-    if ('Gyroscope' in window) {
+    // Sprawdzamy, czy przeglądarka wspiera to zdarzenie
+    if (window.DeviceOrientationEvent) {
         
+        // Uruchamiamy nasłuchiwanie na zmianę orientacji
+        window.addEventListener('deviceorientation', (event) => {
+            
+            // event.alpha: Obrót wokół osi Z (jak kompas, 0-360 stopni)
+            // event.beta: Pochylenie przód/tył (oś X, -180 do 180)
+            // event.gamma: Przechylenie lewo/prawo (oś Y, -90 do 90)
 
-        const sensor = new Gyroscope({ frequency: 60 }); 
-
-     
-        sensor.addEventListener('reading', () => {
-           
             daneDiv.innerHTML = `
-                X: ${sensor.x.toFixed(3)} <br>
-                Y: ${sensor.y.toFixed(3)} <br>
-                Z: ${sensor.z.toFixed(3)}
+                Alpha (Z): ${event.alpha.toFixed(2)}° <br>
+                Beta (X):  ${event.beta.toFixed(2)}° <br>
+                Gamma (Y): ${event.gamma.toFixed(2)}°
             `;
         });
 
-
-        sensor.start();
-        
     } else {
-       
-        daneDiv.innerHTML = 'blad.';
+        daneDiv.innerHTML = 'Twoja przeglądarka nie wspiera DeviceOrientationEvent.';
     }
 });
+
