@@ -1,5 +1,5 @@
 
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
 
 
     const lokalizacjaDiv = document.getElementById('lokalizacja');
@@ -32,5 +32,36 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         
         lokalizacjaDiv.innerHTML = '<p class="error">blad</p>';
+    }
+
+});
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const daneDiv = document.getElementById('dane');
+
+   
+    if ('Gyroscope' in window) {
+        
+
+        const sensor = new Gyroscope({ frequency: 60 }); 
+
+     
+        sensor.addEventListener('reading', () => {
+           
+            daneDiv.innerHTML = `
+                X: ${sensor.x.toFixed(3)} <br>
+                Y: ${sensor.y.toFixed(3)} <br>
+                Z: ${sensor.z.toFixed(3)}
+            `;
+        });
+
+
+        sensor.start();
+        
+    } else {
+       
+        daneDiv.innerHTML = 'blad.';
     }
 });
